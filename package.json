@@ -1,0 +1,30 @@
+{
+  "name": "chalice-store",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate-docs": "jsdoc -c jsdoc.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "lit": "^2.7.2"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^7.0.24",
+    "@storybook/addon-essentials": "^7.0.23",
+    "@storybook/addon-links": "^7.0.23",
+    "@storybook/blocks": "^7.0.23",
+    "@storybook/web-components": "^7.0.23",
+    "@storybook/web-components-vite": "^7.0.23",
+    "jsdoc": "^4.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.0.23",
+    "vite": "^4.3.9"
+  }
+}
