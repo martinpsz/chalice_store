@@ -1,8 +1,9 @@
-//ts-check
 import { LitElement, html, css, nothing } from "lit";
 
 /**
  * Cart icon button. 
+ * 
+ * @property {number} itemsInCart
  */
 export class CartIcon extends LitElement{
     static styles = css`
@@ -27,12 +28,10 @@ export class CartIcon extends LitElement{
             
         }
     `
-    /**
-     * itemsInCart 
-     * @type {number} 
-     */
-    static properties = {
-        itemsInCart: {type: Number}
+    
+    constructor(){
+        super()
+        this.itemsInCart = 0;
     }
 
 

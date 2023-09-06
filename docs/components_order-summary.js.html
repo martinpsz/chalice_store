@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/input-field.js</title>
+    <title>JSDoc: Source: components/order-summary.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/input-field.js</h1>
+    <h1 class="page-title">Source: components/order-summary.js</h1>
 
     
 
@@ -27,68 +27,60 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { LitElement, html, css } from "lit";
-
-
-/**
- * @typedef {'tel' | 'email' | 'text'}  InputFieldType 
-*/
+import data from '../../products.json'
+import '../components/product-view'
 
 /**
- * Input Field - Holds values for various inputs from the form
- * 
- * @property {string} fieldLabel
- * @property {InputFieldType} inputType
- *
+ * @typedef Order
+ * @type {Object}
+ * @property {string} Product_Id - The id of the product (also used as alt for image.)
+ * @property {string} Product_Name - The name of the product
+ * @property {string} Product_Image - The image of the product
+ * @property {string} Per_Case_Price - The price of a case
+ * @property {string} Per_Bottle_Price - The price of a bottle
  */
-export class InputField extends LitElement{
 
+
+/**
+ * Order Summary - manages the user's order cart
+ * 
+ * @property {Array.&lt;Order>} order
+ */
+export class OrderSummary extends LitElement{
     static styles = css`
-
-        label{
-            display: inline-flex;
+        #order-summary{
+            display: flex;
             flex-direction: column;
-            font-family: var(--Poppins);
-            font-size: 0.8em;
-            text-transform: uppercase;
         }
-
-        input{
-            border: 1px solid rgba(112, 128, 144, 0.5);
-            border-radius: 0.25em;
-            padding: 0.25em;
-        }   
+    
     `
+
+    static properties = {
+        order: {type: Object}
+    }
+
 
     constructor(){
         super()
-
-        this.fieldLabel = ''
-        this.inputType = 'text'
+        this.order = data.order
     }
-    
     render(){
         return html`
-            &lt;label>${this.fieldLabel} &lt;input type=${this.inputType.toLowerCase()} @input=${(/** @type {InputEvent} */ e) => this._inputtedTextHandler(e)}/>&lt;/label>
+            &lt;div id='order-summary'>
+            ${this.order.map(elem => {
+                return html`&lt;product-view key=${elem.Product_Id}
+                                          productName=${elem.Product_Name}
+                                          imgSrc=${elem.Product_Image}
+                                          casePrice=${elem.Per_Case_Price}
+                                          bottlePrice=${elem.Per_Bottle_Price}>
+                            &lt;/product-view>`
+            })}
+            &lt;/div>
         `
-    }
-
-    /**
-     * @argument {Event} e - The input event on the field
-     * @returns {void}
-     */
-    _inputtedTextHandler = (e) => {
-        const target = e.target 
-        if (target instanceof HTMLInputElement){
-            this.dispatchEvent(new CustomEvent('get_input', {
-                detail: target.value,
-                bubbles: true,
-                composed: true
-            }))
-        }
     }
 }
 
-customElements.define('input-field', InputField)</code></pre>
+customElements.define('order-summary', OrderSummary)</code></pre>
         </article>
     </section>
 

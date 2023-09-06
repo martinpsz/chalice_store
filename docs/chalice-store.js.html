@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: components/input-field.js</title>
+    <title>JSDoc: Source: chalice-store.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: components/input-field.js</h1>
+    <h1 class="page-title">Source: chalice-store.js</h1>
 
     
 
@@ -27,68 +27,56 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import { LitElement, html, css } from "lit";
-
-
+import './components/order-summary'
 /**
- * @typedef {'tel' | 'email' | 'text'}  InputFieldType 
-*/
-
-/**
- * Input Field - Holds values for various inputs from the form
- * 
- * @property {string} fieldLabel
- * @property {InputFieldType} inputType
- *
+ * Chalice Store - Where all components are laid out to create the store
  */
-export class InputField extends LitElement{
-
+export class ChaliceStore extends LitElement{
     static styles = css`
-
-        label{
-            display: inline-flex;
+        .store-container{
+            background-color: rgba(67, 77, 86, 0.85);
+            display: flex;
             flex-direction: column;
-            font-family: var(--Poppins);
-            font-size: 0.8em;
-            text-transform: uppercase;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-Y: scroll;
+            position: relative;
         }
 
-        input{
-            border: 1px solid rgba(112, 128, 144, 0.5);
-            border-radius: 0.25em;
-            padding: 0.25em;
-        }   
+        .order-container{
+            max-width: 576px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            background: white;
+        }
+
+        
+    
     `
 
-    constructor(){
-        super()
 
-        this.fieldLabel = ''
-        this.inputType = 'text'
-    }
-    
     render(){
         return html`
-            &lt;label>${this.fieldLabel} &lt;input type=${this.inputType.toLowerCase()} @input=${(/** @type {InputEvent} */ e) => this._inputtedTextHandler(e)}/>&lt;/label>
+            &lt;div class="store-container">
+                &lt;div class="order-container">
+                    &lt;order-summary>&lt;/order-summary>
+                &lt;/div>
+            &lt;/div>
         `
     }
 
-    /**
-     * @argument {Event} e - The input event on the field
-     * @returns {void}
-     */
-    _inputtedTextHandler = (e) => {
-        const target = e.target 
-        if (target instanceof HTMLInputElement){
-            this.dispatchEvent(new CustomEvent('get_input', {
-                detail: target.value,
-                bubbles: true,
-                composed: true
-            }))
-        }
-    }
+    
 }
 
-customElements.define('input-field', InputField)</code></pre>
+customElements.define('chalice-store', ChaliceStore)
+</code></pre>
         </article>
     </section>
 

@@ -1,11 +1,21 @@
-//ts-check
 import { LitElement, html, css } from "lit";
 
+
 /**
- * Input Field: handles collection of individual form inputs
+ * @typedef {'tel' | 'email' | 'text'}  InputFieldType 
+*/
+
+/**
+ * Input Field - Holds values for various inputs from the form
+ * 
+ * @property {string} fieldLabel
+ * @property {InputFieldType} inputType
+ *
  */
 export class InputField extends LitElement{
+
     static styles = css`
+
         label{
             display: inline-flex;
             flex-direction: column;
@@ -21,35 +31,32 @@ export class InputField extends LitElement{
         }   
     `
 
-    /**
-     * @typedef {'tel' | 'email' | 'text'}  InputFieldType
-     */
+    constructor(){
+        super()
 
-     /** 
-     * @property {string} fieldLabel - The field label for the input field
-     * @property {InputFieldType} inputType - Type of input field
-     */
-    static properties = {
-        fieldLabel: {type: String},
-        inputType: {type: 'tel' | 'email' | 'text'}
+        this.fieldLabel = ''
+        this.inputType = 'text'
     }
     
     render(){
         return html`
-            <label>${this.fieldLabel} <input type=${this.inputType} @input=${e => this._inputtedTextHandler(e)}/></label>
+            <label>${this.fieldLabel} <input type=${this.inputType.toLowerCase()} @input=${(/** @type {InputEvent} */ e) => this._inputtedTextHandler(e)}/></label>
         `
     }
 
     /**
-     * @argument {e} - The input event on the field
+     * @argument {Event} e - The input event on the field
      * @returns {void}
      */
     _inputtedTextHandler = (e) => {
-        this.dispatchEvent(new CustomEvent('get_input', {
-            detail: e.target.value,
-            bubbles: true,
-            composed: true
-        }))
+        const target = e.target 
+        if (target instanceof HTMLInputElement){
+            this.dispatchEvent(new CustomEvent('get_input', {
+                detail: target.value,
+                bubbles: true,
+                composed: true
+            }))
+        }
     }
 }
 
